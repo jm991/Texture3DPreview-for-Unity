@@ -32,7 +32,7 @@ public static class Texture3DExtensions
         {
             if (_previewTexture3dMaterial == null)
             {
-                _previewTexture3dMaterial = new Material(Shader.Find("Hidden/Texture3DPreview"));
+                _previewTexture3dMaterial = new Material(Shader.Find("Custom/Texture3DPreview"));
             }
 
             return _previewTexture3dMaterial;
@@ -90,10 +90,10 @@ public static class Texture3DExtensions
 
         PreviewRenderUtilityHelpers.Instance.DrawMesh(MeshHelpers.Cube, Matrix4x4.identity, PreviewTexture3dMaterial, 0);
 
-        PreviewRenderUtilityHelpers.Instance.camera.transform.position = Vector2.zero;
-        PreviewRenderUtilityHelpers.Instance.camera.transform.rotation = Quaternion.Euler(new Vector3(-angle.y, -angle.x, 0));
-        PreviewRenderUtilityHelpers.Instance.camera.transform.position = PreviewRenderUtilityHelpers.Instance.camera.transform.forward * -distance;
-        PreviewRenderUtilityHelpers.Instance.camera.Render();
+        PreviewRenderUtilityHelpers.Instance.m_Camera.transform.position = Vector2.zero;
+        PreviewRenderUtilityHelpers.Instance.m_Camera.transform.rotation = Quaternion.Euler(new Vector3(-angle.y, -angle.x, 0));
+        PreviewRenderUtilityHelpers.Instance.m_Camera.transform.position = PreviewRenderUtilityHelpers.Instance.m_Camera.transform.forward * -distance;
+        PreviewRenderUtilityHelpers.Instance.m_Camera.Render();
     }
 
     /// <summary>

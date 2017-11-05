@@ -1,4 +1,5 @@
-﻿Shader "Hidden/Texture3DPreview"
+﻿//Shader "Hidden/Texture3DPreview"
+Shader "Custom/Texture3DPreview"
 {
 	SubShader
 	{
