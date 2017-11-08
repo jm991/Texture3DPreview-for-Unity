@@ -91,7 +91,7 @@
             float3 rayStart = localCamera.origin + localCamera.direction * entryPoint;
             float3 rayStop = localCamera.origin + localCamera.direction * exitPoint;
 
-            float3 start = rayStop;
+            float3 start = rayStart;
             float dist = distance(rayStop, rayStart);
             float stepSize = dist / float(_MaxSteps);
             float3 stepSizeVector = normalize(rayStop - rayStart) * stepSize;
@@ -100,12 +100,13 @@
             float3 lightenergy = 0;
                 
             float4 color = float4(0,0,0,0);
-            for (int i = _MaxSteps; i >= 0; --i)
+            for (int i = 0; i < _MaxSteps; i++)
             {
                 float3 pos = start.xyz;
                 pos.xyz = pos.xyz + 0.5f;
                 float4 cursample = tex3D(_MainTex, pos);
                 
+                /*
                 // Sample Light Absorption and Scattering
                 if (cursample.r > 0.001f)
                 {
@@ -125,15 +126,16 @@
                     lightenergy += absorbedlight * transmittance;
                     transmittance *= 1 - curdensity;
                 }
+                */
 
                 color.xyz += cursample.rgb * cursample.a;
                 
-                start -= stepSizeVector;
+                start += stepSizeVector;
             }
             color *= _Density / (uint)_MaxSteps;
 
-            //return color;
-            return float4(lightenergy, transmittance);
+            return color;
+            //return float4(lightenergy, transmittance);
         }
         ENDCG
 
