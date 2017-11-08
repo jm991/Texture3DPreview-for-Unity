@@ -199,14 +199,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1481265851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d70314116797d94c9daf61456ed9357, type: 3}
+  m_Script: {fileID: 11500000, guid: 53d249b754d5d3d4d9b57057c2534f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texture3D: {fileID: 11700000, guid: 067c961f324eeee44a67b42894b50ada, type: 2}
-  PreviewTexture3dMaterial: {fileID: 2100000, guid: 5c0f402b9a9db6442a153f1176841c3f,
-    type: 2}
-  samplingIterations: 144
-  density: 1
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  localBoundsMinimum: {x: 0, y: 0, z: 0}
+  localBoundsSize: {x: 0, y: 0, z: 0}
+  meshFilter: {fileID: 0}
+  renderer: {fileID: 0}
 --- !u!1 &1729229721
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +299,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.278431, g: 0.278431, b: 0.278431, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
