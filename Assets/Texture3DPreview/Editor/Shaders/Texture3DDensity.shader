@@ -5,8 +5,8 @@
         _MainTex("Texture", 3D) = "" {}
         _PsuedoTex("2D Texture", 2D) = "" {}
 
-        _LocalBoundsSize("LocalBoundsSize", Vector) = (0,0,0,0)
-        _LocalBoundsMinimum("LocalBoundsMinimum", Vector) = (0,0,0,0)
+        _LocalBoundsSize("LocalBoundsSize", Vector) = (1,1,1,0)
+        _LocalBoundsMinimum("LocalBoundsMinimum", Vector) = (-0.5,-0.5,-0.5,0)
     }
     SubShader
     {
@@ -17,6 +17,7 @@
                 "Queue" = "Transparent"
             }
             Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite false
 
             CGPROGRAM
             #pragma target 5.0
@@ -77,12 +78,12 @@
 
                 for (int i = 0; i < MaxSteps; i++)
                 {
-                    float4 cursample = tex3D(_MainTex, saturate(CurPos)).r;                    // float cursample = PseudoVolumeTexture(_PsuedoTex, saturate(CurPos), XYFrames, numFrames).r;
+                    float4 cursample = tex3D(_MainTex, saturate(CurPos)).a;                    // float cursample = PseudoVolumeTexture(_PsuedoTex, saturate(CurPos), XYFrames, numFrames).r;
                     accumdist += cursample * StepSize;
                     CurPos += -localcamvec * StepSize;
                 }
 
-                return float4(accumdist, accumdist, accumdist, accumdist);
+                return float4(1, 1, 1, accumdist);
             }
             ENDCG
         }
