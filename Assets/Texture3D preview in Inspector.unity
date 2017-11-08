@@ -140,7 +140,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: ec2ad8d68b6ae1b4fa1db6afa2fd5b44, type: 2}
+  - {fileID: 2100000, guid: 5c0f402b9a9db6442a153f1176841c3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texture3D: {fileID: 11700000, guid: 067c961f324eeee44a67b42894b50ada, type: 2}
-  PreviewTexture3dMaterial: {fileID: 2100000, guid: ec2ad8d68b6ae1b4fa1db6afa2fd5b44,
+  PreviewTexture3dMaterial: {fileID: 2100000, guid: 5c0f402b9a9db6442a153f1176841c3f,
     type: 2}
   samplingIterations: 144
   density: 1
@@ -247,47 +247,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1754498863
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1754498865}
-  - component: {fileID: 1754498864}
-  m_Layer: 0
-  m_Name: Texture3D preview in Inspector (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1754498864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1754498863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308d5e80d1df35543bd2ec9636edd96a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  texture3D: {fileID: 11700000, guid: 067c961f324eeee44a67b42894b50ada, type: 2}
---- !u!4 &1754498865
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1754498863}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1756971427
 GameObject:

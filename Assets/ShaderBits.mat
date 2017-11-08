@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 3DTexture
+  m_Name: ShaderBits
   m_Shader: {fileID: 4800000, guid: 00d4aa0217fa893489070ed8b8a5a04a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -69,7 +69,6 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WireThickness: 100
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
