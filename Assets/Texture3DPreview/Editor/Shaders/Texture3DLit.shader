@@ -3,11 +3,11 @@
     Properties
     {
         _MainTex("Texture", 3D) = "" {}
-        _MaxSteps("Max Steps", Int) = 64
+        _MaxSteps("Max Steps", Int) = 16    // int 64 in Unreal
         _Density("Density", Float) = 1    // int 64 in Unreal
-        _ShadowSteps("Shadow Steps", Int) = 32
-        _ShadowDensity("Shadow Density", Int) = 64
-        _LightVector("Light Vector", Vector) = (1.0, 0.15, 1.0, 1.0) // TODO: swap for ShaderForge implementation
+        // _ShadowSteps("Shadow Steps", Int) = 16  // int 32 in Unreal
+        _ShadowDensity("Shadow Density", Int) = 16  // int 64 in Unreal
+        _LightVector("Light Vector", Vector) = (1.0, 0.15, 1.0, 1.0) // TODO: swap for ShaderForge implementation; also Unreal has some transformations on this value
     }
     SubShader
     {
@@ -68,14 +68,16 @@
         float4 frag(v2f IN) : COLOR
         {
             // float3 LightVector = normalize(lerp(_WorldSpaceLightPos0.xyz, _WorldSpaceLightPos0.xyz - IN.worldPos.xyz, _WorldSpaceLightPos0.w)); // from ShaderForge - could be sent in by script too
-                        
-            float3 localCameraPosition = UNITY_MATRIX_IT_MV[3].xyz;
-            //float curdensity = 0;
-            //float transmittance = 1;
+            _ShadowSteps = 16;
+            int Density = 64;
 
-            //float shadowstepsize = 1 / _ShadowSteps;
-            //_LightVector *= shadowstepsize;
-            //_ShadowDensity *= shadowstepsize;
+            float3 localCameraPosition = UNITY_MATRIX_IT_MV[3].xyz;
+            float curdensity = 0;
+            float transmittance = 1;
+
+            float shadowstepsize = 1 / _ShadowSteps;
+            _LightVector *= shadowstepsize;
+            _ShadowDensity *= shadowstepsize;
     
             Ray localCamera;
             localCamera.origin = localCameraPosition;
@@ -94,23 +96,44 @@
             float stepSize = dist / float(_MaxSteps);
             float3 stepSizeVector = normalize(rayStop - rayStart) * stepSize;
             
-            // _Density *= stepSize;
-            // float3 lightenergy = 0;
+            Density *= stepSize;
+            float3 lightenergy = 0;
                 
             float4 color = float4(0,0,0,0);
             for (int i = _MaxSteps; i >= 0; --i)
             {
                 float3 pos = start.xyz;
                 pos.xyz = pos.xyz + 0.5f;
-                float4 mask = tex3D(_MainTex, pos);
-                    
-                color.xyz += mask.rgb * mask.a;
+                float4 cursample = tex3D(_MainTex, pos);
+                
+                // Sample Light Absorption and Scattering
+                if (cursample.r > 0.001f)
+                {
+                    float3 lpos = pos;
+                    float shadowdist = 0;
+
+                    for (int s = 0; s < _ShadowSteps; s++)
+                    {
+                        lpos += _LightVector;
+                        float lsample = tex3D(_MainTex, lpos);
+                        shadowdist += lsample;
+                    }
+
+                    curdensity = saturate(cursample * Density);
+                    float shadowterm = exp(-shadowdist * _ShadowDensity);
+                    float3 absorbedlight = shadowterm * curdensity;
+                    lightenergy += absorbedlight * transmittance;
+                    transmittance *= 1 - curdensity;
+                }
+
+                color.xyz += cursample.rgb * cursample.a;
                 
                 start -= stepSizeVector;
             }
             color *= _Density / (uint)_MaxSteps;
 
-            return color;
+            //return color;
+            return float4(lightenergy, transmittance);
         }
         ENDCG
 
