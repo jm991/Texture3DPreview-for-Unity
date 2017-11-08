@@ -1,4 +1,4 @@
-﻿Shader "Custom/Texture3DDensity"
+﻿Shader "Custom/Texture3DLit"
 {
     Properties
     {
@@ -58,28 +58,35 @@
             float4 frag(v2f IN) : COLOR
             {
                 // Unreal setup - move to properties
-                float MaxSteps = 32;
-                int XYFrames = 12;
-
-
-                /* STEP 1: Debug BoundingBoxBased_0-1_UVW -> CurPos*/
-                float3 CurPos = IN.color;
-                //return fixed4(CurPos, 1);
-
-                /* STEP 2: Debug localcamvec -> */
+                int XYFrames = 12;  // unused since we have 3D textures in Unity
+                float Steps = 32;    // int in Unreal
+                float StepSize = 1 / Steps;
+                int Density = 64;
+                int ShadowSteps = 32;
+                int ShadowDensity = 64;
+                float4 LightVector = float4(1.0, 0.15, 1.0, 1.0);
+                
+                // Unreal setup - from other nodes
+                int MaxSteps = Steps;
                 float3 localCameraPosition = UNITY_MATRIX_IT_MV[3].xyz;
+                float3 CurPos = IN.color;
+
+                // Start of Density RayMarch node
+                float numFrames = XYFrames * XYFrames;
+                float curdensity = 0;
+                float transmittance = 1;
                 float3 localcamvec = normalize(localCameraPosition - IN.localPos);
-                //return fixed4(localcamvec, 1);
+
+                float shadowstepsize = 1 / ShadowSteps;
+                LightVector *= shadowstepsize;
+                ShadowDensity *= shadowstepsize;
 
                 /* STEP 3: Try looping with psuedo texture*/
-                float numFrames = XYFrames * XYFrames;
                 float accumdist = 0;
-                float StepSize = 1 / MaxSteps;
 
                 for (int i = 0; i < MaxSteps; i++)
                 {
-                    float4 cursample = tex3D(_MainTex, saturate(CurPos)).a;                    // float cursample = PseudoVolumeTexture(_PsuedoTex, saturate(CurPos), XYFrames, numFrames).r;
-                    accumdist += cursample * StepSize;
+                    float4 cursample = tex3D(_MainTex, saturate(CurPos)).a;                    accumdist += cursample * StepSize;
                     CurPos += -localcamvec * StepSize;
                 }
 
