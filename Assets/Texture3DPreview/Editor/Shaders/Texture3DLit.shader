@@ -59,12 +59,13 @@
             {
                 // Unreal setup - move to properties
                 int XYFrames = 12;  // unused since we have 3D textures in Unity
-                float Steps = 32;    // int in Unreal
+                float Steps = 64;    // int in Unreal
                 float StepSize = 1 / Steps;
                 float Density = 64;
                 float ShadowSteps = 32;
                 float ShadowDensity = 64;
                 float4 LightVector = float4(1.0, 0.15, 1.0, 1.0);
+                // float3 LightVector = normalize(lerp(_WorldSpaceLightPos0.xyz, _WorldSpaceLightPos0.xyz - IN.worldPos.xyz, _WorldSpaceLightPos0.w));
                 
                 // Unreal setup - from other nodes
                 int MaxSteps = Steps;
@@ -84,15 +85,32 @@
                 Density *= StepSize;
                 float3 lightenergy = 0;
 
-                float accumdist = 0;
-
                 for (int i = 0; i < MaxSteps; i++)
                 {
-                    float4 cursample = tex3D(_MainTex, saturate(CurPos)).a;                    accumdist += cursample * StepSize;
+                    float cursample = tex3D(_MainTex, saturate(CurPos)).a;                    
+                    // Sample Light Absorption and Scattering
+                    if (cursample > 0.001f)
+                    {
+                        float3 lpos = CurPos;
+                        float shadowdist = 0;
+
+                        for (int s = 0; s < ShadowSteps; s++)
+                        {
+                            lpos += LightVector;
+                            float lsample = tex3D(_MainTex, saturate(lpos)).a;
+                            shadowdist += lsample;
+                        }
+
+                        curdensity = saturate(cursample * Density);
+                        float shadowterm = exp(-shadowdist * ShadowDensity);
+                        float3 absorbedlight = shadowterm * curdensity;
+                        lightenergy += absorbedlight * transmittance;
+                        transmittance *= 1 - curdensity;
+                    }
                     CurPos -= localcamvec;
                 }
 
-                return float4(1, 1, 1, accumdist);
+                return float4(lightenergy, 1 - transmittance);
             }
             ENDCG
         }
