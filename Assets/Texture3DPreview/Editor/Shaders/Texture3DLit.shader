@@ -57,17 +57,17 @@
 		{
 			float3 localCameraPosition = UNITY_MATRIX_IT_MV[3].xyz;
 	
-			Ray ray;
-			ray.origin = localCameraPosition;
-			ray.direction = normalize(IN.localPos - localCameraPosition);
+			Ray localCamera;
+			localCamera.origin = localCameraPosition;
+			localCamera.direction = normalize(IN.localPos - localCameraPosition);
 
 			float entryPoint, exitPoint;
-			IntersectBox(ray, entryPoint, exitPoint);
+			IntersectBox(localCamera, entryPoint, exitPoint);
 		
 			if (entryPoint < 0.0) entryPoint = 0.0;
 
-			float3 rayStart = ray.origin + ray.direction * entryPoint;
-			float3 rayStop = ray.origin + ray.direction * exitPoint;
+			float3 rayStart = localCamera.origin + localCamera.direction * entryPoint;
+			float3 rayStop = localCamera.origin + localCamera.direction * exitPoint;
 
 			float3 start = rayStop;
 			float dist = distance(rayStop, rayStart);
@@ -86,26 +86,6 @@
 				start -= ds;
 			}
 			color *= _Density / (uint)_SamplingQuality;
-
-			// Weird enough, bruteforce seems quicker (to be investigated)
-			//const float maxDist = 0.86602540378443864676372317075294f;
-			//float stepSize = maxDist / (float)_SamplingQuality;
-			//float dist = distance(rayStop, rayStart);
-			//int steps = ceil(dist / stepSize);
-			//float3 ds = normalize(rayStop - rayStart) * stepSize;
-			//float3 color = float3(0,0,0);
-			//[unroll(512)]
-			//for (int i = steps; i >= 0; --i)
-			//{
-			//	float3 pos = start.xyz;
-			//	pos.xyz = pos.xyz + 0.5f;
-			//	float4 mask = tex3D(_MainTex, pos);
-			//	
-			//	color += mask.xyz * mask.w;
-			//
-			//	start += ds;
-			//}				
-			//color *= _Density / steps;
 
 			return color;
 		}
