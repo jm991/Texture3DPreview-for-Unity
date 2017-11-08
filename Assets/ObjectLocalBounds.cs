@@ -27,6 +27,6 @@ public class ObjectLocalBounds : MonoBehaviour {
         localBoundsSize = bounds.size;
         rend.material.SetVector("_LocalBoundsMinimum", localBoundsMinimum);
         rend.material.SetVector("_LocalBoundsSize", localBoundsSize);
-        rend.material.SetVector("_LightVector", sun.transform.rotation.eulerAngles);
+        rend.material.SetVector("_LightVector", sun.transform.forward * -1f);
     }
 }
