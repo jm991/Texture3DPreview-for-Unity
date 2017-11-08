@@ -61,9 +61,9 @@
                 int XYFrames = 12;  // unused since we have 3D textures in Unity
                 float Steps = 32;    // int in Unreal
                 float StepSize = 1 / Steps;
-                int Density = 64;
-                int ShadowSteps = 32;
-                int ShadowDensity = 64;
+                float Density = 64;
+                float ShadowSteps = 32;
+                float ShadowDensity = 64;
                 float4 LightVector = float4(1.0, 0.15, 1.0, 1.0);
                 
                 // Unreal setup - from other nodes
@@ -75,19 +75,21 @@
                 float numFrames = XYFrames * XYFrames;
                 float curdensity = 0;
                 float transmittance = 1;
-                float3 localcamvec = normalize(localCameraPosition - IN.localPos);
+                float3 localcamvec = normalize(localCameraPosition - IN.localPos) * StepSize;
 
                 float shadowstepsize = 1 / ShadowSteps;
                 LightVector *= shadowstepsize;
                 ShadowDensity *= shadowstepsize;
 
-                /* STEP 3: Try looping with psuedo texture*/
+                Density *= StepSize;
+                float3 lightenergy = 0;
+
                 float accumdist = 0;
 
                 for (int i = 0; i < MaxSteps; i++)
                 {
                     float4 cursample = tex3D(_MainTex, saturate(CurPos)).a;                    accumdist += cursample * StepSize;
-                    CurPos += -localcamvec * StepSize;
+                    CurPos -= localcamvec;
                 }
 
                 return float4(1, 1, 1, accumdist);
