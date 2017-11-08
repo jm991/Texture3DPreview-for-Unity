@@ -1,9 +1,12 @@
-﻿Shader "Custom/Texture3DLit"
+﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "Custom/Texture3DLit"
 {
     Properties
     {
         _MainTex("Texture", 3D) = "" {}
         _PsuedoTex("2D Texture", 2D) = "" {}
+        _LightVector("Light Vector", Vector) = (1.0, 0.15, 1.0, 1.0)
 
         _LocalBoundsSize("LocalBoundsSize", Vector) = (1,1,1,0)
         _LocalBoundsMinimum("LocalBoundsMinimum", Vector) = (-0.5,-0.5,-0.5,0)
@@ -15,6 +18,7 @@
             Tags
             {
                 "Queue" = "Transparent"
+                "RenderType" = "ForwardBase"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite false
@@ -30,6 +34,7 @@
 
             sampler3D _MainTex;
             sampler2D _PsuedoTex;
+            uniform float4 _LightVector;
 
             uniform float4 _LocalBoundsSize;
             uniform float4 _LocalBoundsMinimum;
@@ -64,8 +69,7 @@
                 float Density = 64;
                 float ShadowSteps = 32;
                 float ShadowDensity = 64;
-                float4 LightVector = float4(1.0, 0.15, 1.0, 1.0);
-                // float3 LightVector = normalize(lerp(_WorldSpaceLightPos0.xyz, _WorldSpaceLightPos0.xyz - IN.worldPos.xyz, _WorldSpaceLightPos0.w));
+                float4 LightVector = mul(unity_WorldToObject, normalize(_LightVector));                
                 
                 // Unreal setup - from other nodes
                 int MaxSteps = Steps;
