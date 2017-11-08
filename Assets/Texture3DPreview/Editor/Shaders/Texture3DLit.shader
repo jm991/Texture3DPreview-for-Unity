@@ -56,6 +56,7 @@
         float4 frag(v2f IN) : COLOR
         {
             float3 localCameraPosition = UNITY_MATRIX_IT_MV[3].xyz;
+            int MaxSteps = _SamplingQuality;
     
             Ray localCamera;
             localCamera.origin = localCameraPosition;
@@ -71,21 +72,21 @@
 
             float3 start = rayStop;
             float dist = distance(rayStop, rayStart);
-            float stepSize = dist / float(_SamplingQuality);
-            float3 ds = normalize(rayStop - rayStart) * stepSize;
+            float stepSize = dist / float(MaxSteps);
+            float3 stepSizeVector = normalize(rayStop - rayStart) * stepSize;
                 
             float4 color = float4(0,0,0,0);
-            for (int i = _SamplingQuality; i >= 0; --i)
+            for (int i = MaxSteps; i >= 0; --i)
             {
                 float3 pos = start.xyz;
                 pos.xyz = pos.xyz + 0.5f;
                 float4 mask = tex3D(_MainTex, pos);
                     
-                color.xyz += mask.xyz * mask.w;
+                color.xyz += mask.rgb * mask.a;
                 
-                start -= ds;
+                start -= stepSizeVector;
             }
-            color *= _Density / (uint)_SamplingQuality;
+            color *= _Density / (uint)MaxSteps;
 
             return color;
         }
