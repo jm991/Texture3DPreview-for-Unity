@@ -128,7 +128,7 @@
                 }
                 */
 
-                color.xyz += cursample.rgb * cursample.a;
+                color.rgb += cursample.rgb * cursample.a;
                 
                 start += stepSizeVector;
             }
