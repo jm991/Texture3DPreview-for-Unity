@@ -10,6 +10,7 @@ public class Create3DTex : MonoBehaviour
 
     public bool fromTextures = true;
     public Texture2D[] slices;
+    public bool singleChannel = false;
 
     void Start()
     {
@@ -50,7 +51,15 @@ public class Create3DTex : MonoBehaviour
                 {
                     for (int x = 0; x < size; ++x, ++idx)
                     {
-                        cols[idx] = slices[z].GetPixel(x, y);
+                        if (!singleChannel)
+                        {
+                            cols[idx] = slices[z].GetPixel(x, y);
+                        }
+                        else
+                        {
+                            Color pixel = slices[z].GetPixel(x, y);
+                            cols[idx] = new Color(1, 1, 1, pixel.r);
+                        }
                     }
                 }
             }
