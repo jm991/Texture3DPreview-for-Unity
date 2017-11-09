@@ -59,6 +59,10 @@ public class Noise : MonoBehaviour
     /// <summary> Test material for applying 3D compute shader texture to. </summary>
     private Material material;
 
+    [SerializeField]
+    /// <summary> Name of the Shader's 3D texture property you want to put the noise texture into. </summary>
+    private string texturePropertyName = "_MainTex";
+
     /// <summary>
     /// Unity callback,
     /// 
@@ -66,6 +70,7 @@ public class Noise : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        /*
         supportDX11 = material.shader.isSupported;
 
         if (!supportDX11)
@@ -73,6 +78,7 @@ public class Noise : MonoBehaviour
             Debug.LogError("DirectX 11 is not supported on this graphics card, it is necessary to run this demo.");
             Destroy(this);
         }
+        */
     }
 
     /// <summary>
@@ -82,6 +88,11 @@ public class Noise : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        if (material == null)
+        {
+            material = this.GetComponent<Renderer>().material;
+        }
+
         InitializeNoiseVolume();
     }
 
@@ -107,7 +118,7 @@ public class Noise : MonoBehaviour
 
         noiseVolumeTexture.Create();
         
-        material.SetTexture("_MainTex", noiseVolumeTexture); //_NoiseVolume
+        material.SetTexture(texturePropertyName, noiseVolumeTexture);
     }
 
     /// <summary>
