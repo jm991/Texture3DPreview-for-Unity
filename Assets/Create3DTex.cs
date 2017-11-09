@@ -20,7 +20,8 @@ public class Create3DTex : MonoBehaviour
             size = slices[0].width;
         }
 
-        tex = new Texture3D(size, size, size, TextureFormat.ARGB32, true);
+        tex = new Texture3D(size, size, size, TextureFormat.ARGB32, false);
+        tex.anisoLevel = 16;
         Color[] cols = new Color[size * size * size];
 
         if (!fromTextures)
