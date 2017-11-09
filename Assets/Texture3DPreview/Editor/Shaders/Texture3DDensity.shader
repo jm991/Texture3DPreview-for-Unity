@@ -78,7 +78,8 @@
 
                 for (int i = 0; i < MaxSteps; i++)
                 {
-                    float4 cursample = tex3D(_MainTex, saturate(CurPos)).a;                    // float cursample = PseudoVolumeTexture(_PsuedoTex, saturate(CurPos), XYFrames, numFrames).r;
+                    float4 cursample = tex3D(_MainTex, saturate(CurPos)).a;
+                    // float cursample = PseudoVolumeTexture(_PsuedoTex, saturate(CurPos), XYFrames, numFrames).r;
                     accumdist += cursample * StepSize;
                     CurPos += -localcamvec * StepSize;
                 }
