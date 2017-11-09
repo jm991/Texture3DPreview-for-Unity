@@ -4,7 +4,7 @@
     {
         _MainTex("Texture", 3D) = "" {}
         _SamplingQuality("Sampling Quality", Int) = 64
-        _Density("Sampling Quality", Float) = 1
+        _Density("Density", Float) = 1
     }
 	SubShader
 	{
