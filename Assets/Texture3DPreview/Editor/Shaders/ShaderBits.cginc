@@ -72,3 +72,39 @@ uint3 Rand3DPCG16(int3 p)
     // only top 16 bits are well shuffled
     return v >> 16u;
 }
+
+
+float4 RayMarchCubeSetup(float MaxSteps, float3 localPos, float3 LocalBoundsMaximum)
+{
+    // Unreal setup - move to properties
+    float PlaneAlignment = 1;
+
+    //bring vectors into local space to support object transforms
+    float3 localcampos = (UNITY_MATRIX_IT_MV[3].xyz);
+    float3 localcamvec = normalize(localcampos - localPos);
+
+    //make camera position 0-1
+    localcampos = (localcampos / (LocalBoundsMaximum.x * 2)) + 0.5;
+
+    float3 invraydir = 1 / localcamvec;
+
+    float3 firstintersections = (0 - localcampos) * invraydir;
+    firstintersections = (0 - firstintersections);
+    float3 secondintersections = (1 - localcampos) * invraydir;
+    secondintersections = (0 - secondintersections);
+    float3 closest = min(firstintersections, secondintersections);
+    float3 furthest = max(firstintersections, secondintersections);
+
+    float t0 = max(closest.x, max(closest.y, closest.z));
+    float t1 = min(furthest.x, min(furthest.y, furthest.z));
+
+    float planeoffset = 1.0 - frac((t0 - length(localcampos - 0.5)) * MaxSteps);
+
+    t0 += (planeoffset / MaxSteps) * PlaneAlignment;
+    t0 = max(0, t0);
+
+    float boxthickness = max(0, t1 - t0);
+    float3 entrypos = localcampos - (max(0, t0) * localcamvec);
+
+    return float4(entrypos, boxthickness);
+}
