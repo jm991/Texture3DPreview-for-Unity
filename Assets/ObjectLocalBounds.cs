@@ -6,6 +6,7 @@ using UnityEngine;
 public class ObjectLocalBounds : MonoBehaviour {
     public Bounds bounds;
     public Vector3 localBoundsMinimum;
+    public Vector3 localBoundsMaximum;
     public Vector3 localBoundsSize;
     public MeshFilter meshFilter;
     public Renderer rend;
@@ -24,8 +25,10 @@ public class ObjectLocalBounds : MonoBehaviour {
     {
         bounds = meshFilter.mesh.bounds;
         localBoundsMinimum = bounds.min;
+        localBoundsMaximum = bounds.max;
         localBoundsSize = bounds.size;
         rend.material.SetVector("_LocalBoundsMinimum", localBoundsMinimum);
+        rend.material.SetVector("_LocalBoundsMaximum", localBoundsMaximum);
         rend.material.SetVector("_LocalBoundsSize", localBoundsSize);
         rend.material.SetVector("_LightVector", sun.transform.forward * -1f);
     }
