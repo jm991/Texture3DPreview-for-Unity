@@ -64,7 +64,7 @@
             float3 ShadowDensity = 0.5 * SD;
             float4 LightVector = mul(unity_WorldToObject, normalize(_LightVector));
             float ShadowThreshold = 0.001f;
-            float AmbientDensity = 0;
+            float AmbientDensity = 0.7;
 
             // Unreal setup - from other nodes
             int MaxSteps = Steps;
@@ -87,7 +87,8 @@
 
             for (int i = 0; i < MaxSteps; i++)
             {
-                float cursample = tex3D(_MainTex, saturate(CurPos)).a;                    
+                float cursample = tex3D(_MainTex, saturate(CurPos)).a;
+                    
                 // Sample Light Absorption and Scattering
                 if (cursample > 0.001f)
                 {
