@@ -58,7 +58,7 @@
                 float PlaneAlignment = 1;
                 
                 //bring vectors into local space to support object transforms
-                float3 localcampos = normalize(UNITY_MATRIX_IT_MV[3].xyz);
+                float3 localcampos = (UNITY_MATRIX_IT_MV[3].xyz);
                 //return float4(localcampos, 1);
                 float3 localcamvec = normalize(localcampos - IN.localPos);
                 //return float4(localcamvec, 1);
