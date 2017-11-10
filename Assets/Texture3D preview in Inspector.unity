@@ -487,7 +487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &617580603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,8 +500,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tex: {fileID: 0}
-  size: 8
-  fromTextures: 0
+  size: 256
+  fromTextures: 1
   slices:
   - {fileID: 2800000, guid: 6153378673c2bf047b507255eb2faeef, type: 3}
   - {fileID: 2800000, guid: 2812d2783300a03498c0df0f4edb3896, type: 3}
@@ -935,7 +935,7 @@ MonoBehaviour:
   radius: 0.5
   noiseAnimationSpeed: {x: 1, y: 1, z: 1}
   noiseVolumeTexture: {fileID: 0}
-  volumeTextureSize: 8
+  volumeTextureSize: 256
   noiseTex: {fileID: 11700000, guid: e331d7777226bb248ae67a0f9d80d2c5, type: 2}
   n: 0.5
   material: {fileID: 0}
@@ -1733,7 +1733,7 @@ MonoBehaviour:
   radius: 0.5
   noiseAnimationSpeed: {x: 1, y: 1, z: 1}
   noiseVolumeTexture: {fileID: 0}
-  volumeTextureSize: 128
+  volumeTextureSize: 256
   noiseTex: {fileID: 11700000, guid: e331d7777226bb248ae67a0f9d80d2c5, type: 2}
   n: 0.5
   material: {fileID: 0}
