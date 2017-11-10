@@ -25,6 +25,7 @@
 #pragma kernel TurbulenceNoise
 #pragma kernel Sphere
 #pragma kernel UVWCoords
+#pragma kernel Texture
 
 // General noise parameters.
 float _Amplitude;
@@ -33,15 +34,38 @@ float3 _Animation;
 float3 _Position;
 float _Radius;
 float _TextureDimensions;
+Texture3D<float4> _NoiseTex;
+float _N;
+float3 _NoiseTexDimensions;
 
 // Turbulence specific parameters.
 float _MinFrequency;
 float _MaxFrequency;
 float _QWidth;
 
+/*
+Texture3D<float> InputTexture : register(t2);
+
+SamplerState LinearSampler
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Clamp;
+    AddressV = Clamp;
+    AddressW = Clamp;
+};
+*/
+
 // Volume noise is stored in after calculation.
 // float for alpha only, float3 for RGB color, float 4 for RGBA color
 RWTexture3D<float3> _Output;
+
+SamplerState sampler_NoiseTex
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+    AddressW = Wrap;
+};
 
 //-----------------------------------------------------------|
 // Ken Perlins noise implementation in a compute shader.-----|
@@ -174,6 +198,8 @@ void Sphere(uint3 id : SV_DispatchThreadID)
 {
     float3 position = float3(id.xyz) / float3(_TextureDimensions, _TextureDimensions, _TextureDimensions);
     float sphere = 1 - Sphere3D(position, _Radius);
+    float noise = _NoiseTex.SampleLevel(sampler_NoiseTex, position, 0).a * _N;
+    sphere = sphere + noise;
     _Output[id] = float3(sphere, sphere, sphere);
 }
 
@@ -183,4 +209,14 @@ void UVWCoords(uint3 id : SV_DispatchThreadID)
 {
     float3 position = float3(id.xyz) / float3(_TextureDimensions, _TextureDimensions, _TextureDimensions);
     _Output[id] = position;
+}
+
+// A compute kernel that samples a 3D texture.
+[numthreads(8, 8, 8)]
+void Texture(uint3 id : SV_DispatchThreadID)
+{
+    float3 position = float3(id.xyz) / float3(_TextureDimensions, _TextureDimensions, _TextureDimensions);
+    float3 noise = _NoiseTex.SampleLevel(sampler_NoiseTex, position, 0).rgb;// *_N;
+    //float noise = asfloat(InputTexture.SampleLevel(LinearSampler, position));
+    _Output[id] = noise;
 }

@@ -12,7 +12,8 @@ public class Noise : MonoBehaviour
         Perlin = 0,
         Turbulence = 1,
         Sphere = 2,
-        UVWCoords = 3
+        UVWCoords = 3,
+        Texture = 4
     }
 
     /// <summary> An inspector reference to the compute shader which generates all the noise we are going to be using. </summary>
@@ -67,6 +68,12 @@ public class Noise : MonoBehaviour
     [SerializeField]
     /// <summary> Dimensions of volume texture. </summary>
     private int volumeTextureSize = 128;
+
+    [SerializeField]
+    private Texture3D noiseTex;
+
+    [SerializeField]
+    private float n = 0.5f;
 
     [SerializeField]
     /// <summary> Test material for applying 3D compute shader texture to. </summary>
@@ -135,6 +142,11 @@ public class Noise : MonoBehaviour
         
         material.SetTexture(texturePropertyName, noiseVolumeTexture);
         noiseGenerator.SetFloat("_TextureDimensions", volumeTextureSize);
+        /*if (noiseTex != null)
+        {
+            material.SetTexture("_NoiseTex", noiseTex);
+            material.SetVector("_NoiseTexDimensions", new Vector4(noiseTex.width, noiseTex.height, noiseTex.depth));
+        }*/
     }
 
     /// <summary>
@@ -151,6 +163,14 @@ public class Noise : MonoBehaviour
         noiseGenerator.SetFloat("_Radius", radius);
         noiseGenerator.SetFloat("_TextureDimensions", volumeTextureSize);
 
+        if (noiseTex != null)
+        {
+            noiseGenerator.SetTexture((int)noiseType, "_NoiseTex", noiseTex);
+            material.SetVector("_NoiseTexDimensions", new Vector4(noiseTex.width, noiseTex.height, noiseTex.depth));
+        }
+
+        noiseGenerator.SetFloat("_N", n);
+
         noiseAnimationScroller += noiseAnimationSpeed * Time.deltaTime;
         noiseGenerator.SetVector("_Animation", noiseAnimationScroller);
         noiseGenerator.SetVector("_Position", volumePosition.localPosition);// + new Vector3(0.5f, 0.5f, 0.5f));
@@ -166,7 +186,7 @@ public class Noise : MonoBehaviour
         }
 
         noiseGenerator.SetTexture((int)noiseType, "_Output", noiseVolumeTexture);
-        if (noiseType == NoiseType.UVWCoords || noiseType == NoiseType.Sphere)
+        if (noiseType == NoiseType.UVWCoords || noiseType == NoiseType.Sphere || noiseType == NoiseType.Texture)
         {
             //noiseGenerator.Dispatch((int)noiseType, 16, 16, 16);
             noiseGenerator.Dispatch((int)noiseType, volumeTextureSize / 8, volumeTextureSize / 8, volumeTextureSize / 8);
