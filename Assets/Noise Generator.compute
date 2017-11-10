@@ -139,7 +139,7 @@ float Sphere3D(float3 position, float radius)
 {
     // iq
     //return length(position) - radius;
-    return distance(float3(0, 0, 0), position / _Radius);
+    return distance(float3(0.5f, 0.5f, 0.5f), position ) / _Radius;
 
     // sphere size 1 in bottom corner
     //return distance(position, float3(0, 0, 0));
