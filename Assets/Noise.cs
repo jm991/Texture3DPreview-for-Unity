@@ -45,7 +45,7 @@ public class Noise : MonoBehaviour
     public float noiseScale = 1;
 
     /// <summary> This is the radius of the sphere generated to the volume texture. </summary>
-    [Range(-128f, 128f)]
+    [Range(0, 1f)]
     public float radius = 0.3f;
 
     /// <summary> Noise animation speed, axis independant. </summary>
@@ -166,7 +166,7 @@ public class Noise : MonoBehaviour
         }
 
         noiseGenerator.SetTexture((int)noiseType, "_Output", noiseVolumeTexture);
-        if (noiseType == NoiseType.UVWCoords)
+        if (noiseType == NoiseType.UVWCoords || noiseType == NoiseType.Sphere)
         {
             //noiseGenerator.Dispatch((int)noiseType, 16, 16, 16);
             noiseGenerator.Dispatch((int)noiseType, volumeTextureSize / 8, volumeTextureSize / 8, volumeTextureSize / 8);
