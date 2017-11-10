@@ -172,16 +172,17 @@ void TurbulenceNoise (uint3 id : SV_DispatchThreadID)
 [numthreads(8, 8, 8)]
 void Sphere(uint3 id : SV_DispatchThreadID)
 {
-    float3 position = float3(id.x, id.y, id.z) * (1.0f / (_TextureDimensions * 0.25f));
+    float3 position = float3(id.x, id.y, id.z);// *(1.0f / (_TextureDimensions * 0.25f));
     //float sphere = 1 - Sphere3D(position, _Radius);
-    _Output[id] = position - 0.5f;
+    _Output[id] = position;// -0.5f;
 }
 
 // A compute kernel that calculates UVW coordinates and stores in volume texture.
 [numthreads(8, 8, 8)]
 void UVWCoords(uint3 id : SV_DispatchThreadID)
 {
-     float3 position = float3(id.x, id.y, id.z) * (_Frequency);
-    //float3 position = float3(id.x, id.y, id.z) * (1.0f / _TextureDimensions);
-    _Output[id] = position - 0.5f;// *(_TextureDimensions);
+    //float3 position = float3(id.x, id.y, id.z);
+
+    float3 position = float3(id.xyz) / float3(_TextureDimensions, _TextureDimensions, _TextureDimensions);
+    _Output[id] = position;
 }

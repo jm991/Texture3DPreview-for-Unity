@@ -149,6 +149,7 @@ public class Noise : MonoBehaviour
         noiseGenerator.SetFloat("_Amplitude", distortionAmount);
         noiseGenerator.SetFloat("_Frequency", noiseScale);
         noiseGenerator.SetFloat("_Radius", radius);
+        noiseGenerator.SetFloat("_TextureDimensions", volumeTextureSize);
 
         noiseAnimationScroller += noiseAnimationSpeed * Time.deltaTime;
         noiseGenerator.SetVector("_Animation", noiseAnimationScroller);
@@ -165,6 +166,14 @@ public class Noise : MonoBehaviour
         }
 
         noiseGenerator.SetTexture((int)noiseType, "_Output", noiseVolumeTexture);
-        noiseGenerator.Dispatch((int)noiseType, volumeTextureSize / 8, volumeTextureSize / 8, volumeTextureSize / 8);
+        if (noiseType == NoiseType.UVWCoords)
+        {
+            //noiseGenerator.Dispatch((int)noiseType, 16, 16, 16);
+            noiseGenerator.Dispatch((int)noiseType, volumeTextureSize / 8, volumeTextureSize / 8, volumeTextureSize / 8);
+        }
+        else
+        {
+            noiseGenerator.Dispatch((int)noiseType, 16, 16, 16);
+        }
     }
 }
