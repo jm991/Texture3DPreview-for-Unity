@@ -10,7 +10,9 @@ public class Noise : MonoBehaviour
     public enum NoiseType
     {
         Perlin = 0,
-        Turbulence = 1
+        Turbulence = 1,
+        Sphere = 2,
+        UVWCoords = 3
     }
 
     /// <summary> An inspector reference to the compute shader which generates all the noise we are going to be using. </summary>
@@ -42,6 +44,10 @@ public class Noise : MonoBehaviour
     [Range(0f, 5f)]
     public float noiseScale = 1;
 
+    /// <summary> This is the radius of the sphere generated to the volume texture. </summary>
+    [Range(-128f, 128f)]
+    public float radius = 0.3f;
+
     /// <summary> Noise animation speed, axis independant. </summary>
     public Vector3 noiseAnimationSpeed;
 
@@ -54,6 +60,13 @@ public class Noise : MonoBehaviour
     [SerializeField]
     /// <summary> Noise calculated in compute shader <seealso cref="noiseGenerator"/> is held in this volume texture. </summary>
     private RenderTexture noiseVolumeTexture;
+
+    /// <summary> This transform represents the normalized position of the sphere inside the volume texture. </summary>
+    private Transform volumePosition;
+
+    [SerializeField]
+    /// <summary> Dimensions of volume texture. </summary>
+    private int volumeTextureSize = 128;
 
     [SerializeField]
     /// <summary> Test material for applying 3D compute shader texture to. </summary>
@@ -70,15 +83,13 @@ public class Noise : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        /*
-        supportDX11 = material.shader.isSupported;
+        supportDX11 = SystemInfo.supportsComputeShaders;
 
         if (!supportDX11)
         {
             Debug.LogError("DirectX 11 is not supported on this graphics card, it is necessary to run this demo.");
             Destroy(this);
         }
-        */
     }
 
     /// <summary>
@@ -93,6 +104,10 @@ public class Noise : MonoBehaviour
             material = this.GetComponent<Renderer>().material;
         }
 
+        GameObject go = new GameObject("SpherePosition");
+        go.transform.SetParent(this.transform, false);
+        volumePosition = go.transform;
+
         InitializeNoiseVolume();
     }
 
@@ -103,22 +118,23 @@ public class Noise : MonoBehaviour
     }
 
     /// <summary>
-    /// Creates a 128x128x128 size UAV volume texture.  And passes it to the pixel shader.
+    /// Creates a volumeTextureSize x volumeTextureSize x volumeTextureSize size UAV volume texture.  And passes it to the pixel shader.
     /// </summary>
     private void InitializeNoiseVolume()
     {
-        noiseVolumeTexture = new RenderTexture(128, 128, 0, RenderTextureFormat.RFloat)
+        noiseVolumeTexture = new RenderTexture(volumeTextureSize, volumeTextureSize, 0, RenderTextureFormat.ARGB32) //RenderTextureFormat.RFloat
         {
-            isVolume = true,
-            volumeDepth = 128,
+            dimension = UnityEngine.Rendering.TextureDimension.Tex3D,
+            volumeDepth = volumeTextureSize,
             enableRandomWrite = true,
-            wrapMode = TextureWrapMode.Repeat,
+            wrapMode = TextureWrapMode.Clamp, //wrapMode = TextureWrapMode.Repeat,
             name = "Noise Texture"
         };
 
         noiseVolumeTexture.Create();
         
         material.SetTexture(texturePropertyName, noiseVolumeTexture);
+        noiseGenerator.SetFloat("_TextureDimensions", volumeTextureSize);
     }
 
     /// <summary>
@@ -132,9 +148,11 @@ public class Noise : MonoBehaviour
 
         noiseGenerator.SetFloat("_Amplitude", distortionAmount);
         noiseGenerator.SetFloat("_Frequency", noiseScale);
+        noiseGenerator.SetFloat("_Radius", radius);
 
         noiseAnimationScroller += noiseAnimationSpeed * Time.deltaTime;
         noiseGenerator.SetVector("_Animation", noiseAnimationScroller);
+        noiseGenerator.SetVector("_Position", volumePosition.localPosition);// + new Vector3(0.5f, 0.5f, 0.5f));
 
         // The plan was to have more noise types here.
         switch (noiseType)
@@ -147,6 +165,6 @@ public class Noise : MonoBehaviour
         }
 
         noiseGenerator.SetTexture((int)noiseType, "_Output", noiseVolumeTexture);
-        noiseGenerator.Dispatch((int)noiseType, 16, 16, 16);
+        noiseGenerator.Dispatch((int)noiseType, volumeTextureSize / 8, volumeTextureSize / 8, volumeTextureSize / 8);
     }
 }

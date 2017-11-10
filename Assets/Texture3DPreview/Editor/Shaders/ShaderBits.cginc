@@ -228,3 +228,36 @@ float GradientNoise3D_ALU(float3 v, bool bTiling, float RepeatSize)
     float j = lerp(lerp(rand001, rand101, Weights.x), lerp(rand011, rand111, Weights.x), Weights.y);
     return lerp(i, j, Weights.z).x;
 }
+
+/*
+// @return random number in the range -1 .. 1
+// scalar: 6 frac, 31 mul/mad, 15 add, 
+float FastGradientPerlinNoise3D_TEX(float3 xyz)
+{
+    // needs to be the same value when creating the PerlinNoise3D texture
+    float Extent = 16;
+
+    // last texel replicated and needed for filtering
+    // scalar: 3 frac, 6 mul
+    xyz = frac(xyz / (Extent - 1)) * (Extent - 1);
+
+    // scalar: 3 frac
+    float3 uvw = frac(xyz);
+    // = floor(xyz);
+    // scalar: 3 add
+    float3 p0 = xyz - uvw;
+    //	float3 f = pow(uvw, 2) * 3.0f - pow(uvw, 3) * 2.0f;	// original perlin hermite (ok when used without bump mapping)
+    // scalar: 2*3 add 5*3 mul
+    float3 f = PerlinRamp(float4(uvw, 0)).xyz;	// new, better with continues second derivative for bump mapping
+                                                // scalar: 3 add
+    float3 p = p0 + f;
+    // scalar: 3 mad
+    float4 NoiseSample = Texture3DSampleLevel(View.PerlinNoise3DTexture, View.PerlinNoise3DTextureSampler, p / Extent + 0.5f / Extent, 0);		// +0.5f to get rid of bilinear offset
+
+                                                                                                                                                // reconstruct from 8bit (using mad with 2 constants and dot4 was same instruction count)
+                                                                                                                                                // scalar: 4 mad, 3 mul, 3 add 
+    float3 n = NoiseSample.xyz * 255.0f / 127.0f - 1.0f;
+    float d = NoiseSample.w * 255.f - 127;
+    return dot(xyz, n) - d;
+}
+*/

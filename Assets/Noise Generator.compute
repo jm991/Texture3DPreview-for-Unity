@@ -23,11 +23,16 @@
 
 #pragma kernel PerlinNoise
 #pragma kernel TurbulenceNoise
+#pragma kernel Sphere
+#pragma kernel UVWCoords
 
 // General noise parameters.
 float _Amplitude;
 float _Frequency;
 float3 _Animation;
+float3 _Position;
+float _Radius;
+float _TextureDimensions;
 
 // Turbulence specific parameters.
 float _MinFrequency;
@@ -35,7 +40,8 @@ float _MaxFrequency;
 float _QWidth;
 
 // Volume noise is stored in after calculation.
-RWTexture3D<float> _Output;
+// float for alpha only, float3 for RGB color, float 4 for RGBA color
+RWTexture3D<float3> _Output;
 
 //-----------------------------------------------------------|
 // Ken Perlins noise implementation in a compute shader.-----|
@@ -127,6 +133,20 @@ float Turbulence3D(float3 position, float minFreq, float maxFreq, float qWidth)
 
 
 // ------------------------------------------------------|
+// Signed distance field functions ----------------------|
+// ------------------------------------------------------|
+float Sphere3D(float3 position, float radius)
+{
+    // iq
+    //return length(position) - radius;
+    return distance(float3(0, 0, 0), position);
+
+    // sphere size 1 in bottom corner
+    //return distance(position, float3(0, 0, 0));
+}
+
+
+// ------------------------------------------------------|
 // Compute Kernels --------------------------------------|
 // ------------------------------------------------------|
 
@@ -135,7 +155,8 @@ float Turbulence3D(float3 position, float minFreq, float maxFreq, float qWidth)
 void PerlinNoise (uint3 id : SV_DispatchThreadID)
 {
 	float3 position = float3(id.x, id.y, id.z) * _Frequency + _Animation;
-    _Output[id] = Noise3D(position) * _Amplitude;
+    float perlin = Noise3D(position) * _Amplitude;
+    _Output[id] = float3(perlin, perlin, perlin);
 }
 
 // A compute kernel that calculates turbulence noise, and stores in volume texture.
@@ -143,5 +164,24 @@ void PerlinNoise (uint3 id : SV_DispatchThreadID)
 void TurbulenceNoise (uint3 id : SV_DispatchThreadID)
 {
 	float3 position = float3(id.x, id.y, id.z) * _Frequency + _Animation;
-    _Output[id] = Turbulence3D(position, _MinFrequency, _MaxFrequency, _QWidth) * _Amplitude;
+    float turb = Turbulence3D(position, _MinFrequency, _MaxFrequency, _QWidth) * _Amplitude;
+    _Output[id] = float3(turb, turb, turb);
+}
+
+// A compute kernel that calculates a sphere and stores in volume texture.
+[numthreads(8, 8, 8)]
+void Sphere(uint3 id : SV_DispatchThreadID)
+{
+    float3 position = float3(id.x, id.y, id.z) * (1.0f / (_TextureDimensions * 0.25f));
+    //float sphere = 1 - Sphere3D(position, _Radius);
+    _Output[id] = position - 0.5f;
+}
+
+// A compute kernel that calculates UVW coordinates and stores in volume texture.
+[numthreads(8, 8, 8)]
+void UVWCoords(uint3 id : SV_DispatchThreadID)
+{
+     float3 position = float3(id.x, id.y, id.z) * (_Frequency);
+    //float3 position = float3(id.x, id.y, id.z) * (1.0f / _TextureDimensions);
+    _Output[id] = position - 0.5f;// *(_TextureDimensions);
 }
