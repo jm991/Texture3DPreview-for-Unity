@@ -62,6 +62,7 @@ public class Noise : MonoBehaviour
     /// <summary> Noise calculated in compute shader <seealso cref="noiseGenerator"/> is held in this volume texture. </summary>
     private RenderTexture noiseVolumeTexture;
 
+    [SerializeField]
     /// <summary> This transform represents the normalized position of the sphere inside the volume texture. </summary>
     private Transform volumePosition;
 
@@ -111,9 +112,12 @@ public class Noise : MonoBehaviour
             material = this.GetComponent<Renderer>().material;
         }
 
-        GameObject go = new GameObject("SpherePosition");
-        go.transform.SetParent(this.transform, false);
-        volumePosition = go.transform;
+        if (volumePosition == null)
+        {
+            GameObject go = new GameObject("SpherePosition");
+            go.transform.SetParent(this.transform, false);
+            volumePosition = go.transform;
+        }
 
         InitializeNoiseVolume();
     }

@@ -7,6 +7,7 @@
         _LightVector("Light Vector", Vector) = (1.0, 0.15, 1.0, 1.0)
         _SunColor("Sun Color", Color) = (1.0, 0.875, 0.55, 1.0)
         _SkyColor("Sky Color", Color) = (0.2, 0.2, 0.25, 0.75)
+        _MaxSteps("Max Steps", Int) = 64
 
         _LocalBoundsSize("LocalBoundsSize", Vector) = (1,1,1,0)
         _LocalBoundsMinimum("LocalBoundsMinimum", Vector) = (-0.5,-0.5,-0.5,0)
@@ -28,6 +29,7 @@
         uniform float4 _LightVector;
         float4 _SunColor;
         float4 _SkyColor;
+        int _MaxSteps;
 
         uniform float4 _LocalBoundsSize;
         uniform float4 _LocalBoundsMinimum;
@@ -58,7 +60,7 @@
         {
             // Unreal setup - move to properties
             int XYFrames = 12;  // unused since we have 3D textures in Unity
-            float Steps = 64;    // int in Unreal
+            float Steps = _MaxSteps;    // int in Unreal
             float StepSize = 1 / Steps;
             float Density = 64;
             float ShadowSteps = 32;

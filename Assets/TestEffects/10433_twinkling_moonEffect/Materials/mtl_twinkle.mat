@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: mtl_twinkle
+  m_Shader: {fileID: 4800000, guid: 313ab620d2e611b429e29b1171e30531, type: 3}
+  m_ShaderKeywords: ACTIVE_L0 ACTIVE_L1 ACTIVE_L3 _BLENDMODE_L0_NORMAL _BLENDMODE_L1_NORMAL
+    _BLENDMODE_L2_NORMAL _BLENDMODE_L3_NORMAL _BRG_AXIS_A_VERTGEN_X _BR_PF_SELECTOR_C_FRAGGEN_R
+    _BR_PF_SELECTOR_C_GEN_R _BR_PF_SELECTOR_C_NORMALPUSHGEN_CHANNEL0 _BR_PF_SELECTOR_C_NORMALPUSHMASK_CHANNEL0
+    _BR_PF_SELECTOR_C_UV0GEN_CHANNEL0 _BR_PF_SELECTOR_C_UV0MASK_CHANNEL0 _BR_PF_SELECTOR_C_UV0SRC_MESHUV0
+    _BR_PF_SELECTOR_C_UV1GEN_CHANNEL0 _BR_PF_SELECTOR_C_UV1MASK_CHANNEL0 _BR_PF_SELECTOR_C_UV1SRC_MESHUV0
+    _BR_PF_SELECTOR_C_VCRBARC_MESHUV0 _BR_PF_SELECTOR_C_VCRGSRC_MESHUV0 _BR_PF_SELECTOR_C_VERTPUSHGEN_CHANNEL0
+    _BR_PF_SELECTOR_C_VERTPUSHMASK_CHANNEL0 _SHADERBLENDMODE_TRANSPARENT _UVSRC_L0_UV0
+    _UVSRC_L1_UV0 _UVSRC_L2_UV1 _UVSRC_L3_UV0
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_L0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_L1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_L2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex_L3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Active_L0: 1
+    - _Active_L1: 1
+    - _Active_L2: 0
+    - _Active_L3: 1
+    - _AlphaSrc_L0: 10
+    - _AlphaSrc_L1: 11
+    - _AlphaSrc_L2: 12
+    - _AlphaSrc_L3: 13
+    - _BRG_AXIS_a_VertGen: 0
+    - _BRPF_CONST_FragGen: 1
+    - _BRPF_CONST_VertGen: 5
+    - _BRPF_MASK_c_NormPush: 0
+    - _BRPF_VECTORPUSH_d_NormPush: 0
+    - _BRPF_VECTORPUSH_d_UV0Offset: 0
+    - _BRPF_VECTORPUSH_d_UV1Offset: 0
+    - _BR_PF_SELECTOR_c_FragGen: 0
+    - _BR_PF_SELECTOR_c_Gen: 0
+    - _BR_PF_SELECTOR_c_NormalPushGen: 0
+    - _BR_PF_SELECTOR_c_NormalPushMask: 0
+    - _BR_PF_SELECTOR_c_UV0Gen: 0
+    - _BR_PF_SELECTOR_c_UV0Mask: 0
+    - _BR_PF_SELECTOR_c_UV0Src: 0
+    - _BR_PF_SELECTOR_c_UV1Gen: 0
+    - _BR_PF_SELECTOR_c_UV1Mask: 0
+    - _BR_PF_SELECTOR_c_UV1Src: 1
+    - _BR_PF_SELECTOR_c_VCRBArc: 0
+    - _BR_PF_SELECTOR_c_VCRGSrc: 0
+    - _BR_PF_SELECTOR_c_VertPushGen: 0
+    - _BR_PF_SELECTOR_c_VertPushMask: 0
+    - _BlendModeA_Base: 0
+    - _BlendModeA_L0: 2
+    - _BlendModeA_L1: 2
+    - _BlendModeA_L2: 4
+    - _BlendModeA_L3: 2
+    - _BlendMode_L0: 1
+    - _BlendMode_L1: 1
+    - _BlendMode_L2: 1
+    - _BlendMode_L3: 1
+    - _BumpScale: 1
+    - _ColorMult_Base: 1
+    - _ColorMult_L0: 1
+    - _ColorMult_L1: 1
+    - _ColorMult_L2: 1
+    - _ColorMult_L3: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 10
+    - _Foldout_FragGen: 1
+    - _Foldout_Generators: 1
+    - _Foldout_Layers: 1
+    - _Foldout_UV: 1
+    - _Foldout_Vert: 1
+    - _Foldout_VertGen: 1
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 5
+    - _UVSec: 0
+    - _UVSrc_L0: 0
+    - _UVSrc_L1: 0
+    - _UVSrc_L2: 1
+    - _UVSrc_L3: 0
+    - _VC_BA_AS_UV: 0
+    - _VC_RG_AS_UV: 0
+    - _WriteColorToUV_L0: 0
+    - _WriteColorToUV_L1: 0
+    - _WriteColorToUV_L2: 0
+    - _WriteColorToUV_L3: 0
+    - _ZWrite: 1
+    - _ZWritePrePass: 0
+    - _shaderBlendMode: 1
+    m_Colors:
+    - _BRG_DIRGRADIENTLS_dir_VertGen: {r: 0, g: 1, b: 0, a: 0}
+    - _BRG_DIRGRADIENT_dir_FragGen: {r: 0, g: 1, b: 0, a: 0}
+    - _BRG_DIRGRADIENT_dir_VertGen: {r: 0, g: 1, b: 0, a: 0}
+    - _BRG_SECONDPOINT_FragGen: {r: 0, g: 0, b: 0, a: 0}
+    - _BRG_SNOISE_ts_FragGen: {r: 0, g: 0, b: 0, a: 1}
+    - _BRG_SNOISE_ts_VertGen: {r: 0, g: 2, b: 0, a: 11}
+    - _BRPF_REMAP_m_FragGen_ch0: {r: 0.8, g: 0, b: 2.32, a: 1}
+    - _BRPF_REMAP_m_FragGen_ch1: {r: 0.24, g: 0.88, b: 1.44, a: 1}
+    - _BRPF_REMAP_m_FragGen_ch2: {r: 1, g: -0.49, b: 0, a: 1}
+    - _BRPF_REMAP_m_FragGen_ch3: {r: 0.03, g: 1.68, b: 0.5, a: 1}
+    - _BRPF_REMAP_m_VertGen_ch0: {r: 0, g: 1, b: 1, a: 1}
+    - _BRPF_REMAP_m_VertGen_ch1: {r: 0, g: 1, b: 1, a: 1}
+    - _BRPF_REMAP_m_VertGen_ch2: {r: 0, g: 1, b: 1, a: 1}
+    - _BRPF_REMAP_m_VertGen_ch3: {r: 0, g: 1, b: 1, a: 1}
+    - _BRPF_VECTORPUSH_dir_PosOffset: {r: 0, g: 0, b: 0, a: 1}
+    - _BRPF_VECTORPUSH_dir_UV0Push: {r: 0, g: 0, b: 0, a: 0}
+    - _BRPF_VECTORPUSH_dir_UV1Push: {r: 0, g: 0, b: 0, a: 0}
+    - _BRPF_XFORM_rs_BA: {r: 1, g: 1, b: 0, a: 0}
+    - _BRPF_XFORM_rs_RG: {r: 1, g: 1, b: 0, a: 0}
+    - _BRPF_XFORM_rs_UV0: {r: 1, g: 1, b: 0, a: 0}
+    - _BRPF_XFORM_rs_UV1: {r: 1, g: 1, b: 0, a: 0}
+    - _BRPF_XFORM_tc_BA: {r: 0, g: 0, b: 0.5, a: 0.5}
+    - _BRPF_XFORM_tc_RG: {r: 0, g: 0, b: 0.5, a: 0.5}
+    - _BRPF_XFORM_tc_UV0: {r: 0, g: 0, b: 0.5, a: 0.5}
+    - _BRPF_XFORM_tc_UV1: {r: 0, g: 0, b: 0.5, a: 0.5}
+    - _BRPF_XFORM_ts_Verts: {r: 0, g: 0, b: 0, a: 1}
+    - _BR_PF_SELECTOR_GenFrag: {r: 7, g: 7, b: 0, a: 4}
+    - _BR_PF_SELECTOR_GenMap: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color_Base: {r: 0, g: 0, b: 0, a: 0}
+    - _Color_L0: {r: 0.6958262, g: 0.83751196, b: 0.9558824, a: 0}
+    - _Color_L1: {r: 0.51903117, g: 0.5967068, b: 0.88235295, a: 0}
+    - _Color_L2: {r: 0, g: 0, b: 0, a: 1}
+    - _Color_L3: {r: 0.61310554, g: 0.6314282, b: 0.99264705, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
